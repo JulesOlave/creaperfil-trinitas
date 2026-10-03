@@ -61,7 +61,7 @@
   /* ---------- header ---------- */
   header.top{
     display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;
-    gap:18px; padding-bottom:18px; border-bottom:2px solid var(--green);
+    gap:18px; padding-bottom:18px;
   }
   .eyebrow{
     font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.16em;
@@ -72,13 +72,17 @@
     font-size:clamp(28px,4.4vw,44px); line-height:1.04; margin:0; text-wrap:balance;
   }
   .lede{margin:12px 0 0; max-width:60ch; color:var(--ink70); font-size:16px}
-  .meter{
-    flex:0 0 auto; text-align:right; font-family:var(--mono); font-size:12px; color:var(--ink50);
+  /* línea dorada fija con el porcentaje debajo */
+  .progress{
+    position:sticky; top:0; z-index:5; background:var(--ground);
+    border-top:2px solid var(--green); padding:8px 0 10px;
+    display:flex; justify-content:flex-end;
   }
-  .meter b{display:block;font-size:30px;font-weight:700;color:var(--gold);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .meter{display:flex; align-items:baseline; gap:8px; font-family:var(--mono); font-size:12px; color:var(--ink50)}
+  .meter b{font-size:24px;font-weight:700;color:var(--gold);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 
   /* ---------- layout ---------- */
-  .cols{display:grid; grid-template-columns:minmax(0,1fr) 430px; gap:38px; margin-top:34px; align-items:start}
+  .cols{display:grid; grid-template-columns:minmax(0,1fr) 430px; gap:38px; margin-top:22px; align-items:start}
   @media (max-width:940px){ .cols{grid-template-columns:minmax(0,1fr); gap:30px} }
 
   /* ---------- form ---------- */
@@ -138,7 +142,7 @@
   .rule.on{background:var(--gold-soft); border-color:var(--gold)}
 
   /* ---------- output panel ---------- */
-  .out{position:sticky; top:26px}
+  .out{position:sticky; top:68px}
   @media (max-width:940px){ .out{position:static} }
   .panel{
     background:var(--panel); border-radius:4px; overflow:hidden;
@@ -151,7 +155,7 @@
   .fname{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--gold-bright)}
   .count{font-family:var(--mono); font-size:11px; color:var(--panel-dim); font-variant-numeric:tabular-nums}
   pre.text{
-    margin:0; padding:18px 16px; max-height:calc(100vh - 150px); min-height:420px; overflow:auto;
+    margin:0; padding:18px 16px; max-height:calc(100vh - 195px); min-height:420px; overflow:auto;
     font-family:var(--mono); font-size:12.5px; line-height:1.72; color:var(--panel-text);
     white-space:pre-wrap; word-break:break-word;
   }
@@ -204,8 +208,8 @@
       <h1>Mi perfil en Claude</h1>
       <p class="lede">Escríbelo una vez y Claude lo aplicará en todas tus conversaciones. Llena los campos y el texto de la derecha se arma solo. Cuando esté listo, cópialo y pégalo en <strong>claude.ai → tus iniciales (abajo a la izquierda) → Configuración → Instrucciones para Claude</strong>.</p>
     </div>
-    <div class="meter"><b id="pct">0%</b>completado</div>
   </header>
+  <div class="progress"><div class="meter" aria-live="polite"><b id="pct">0%</b>completado</div></div>
 
   <div class="cols">
 
