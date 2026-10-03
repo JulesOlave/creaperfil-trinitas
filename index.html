@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crea tu perfil de Claude · Trinitas Studio</title>
+<meta name="description" content="Arma tu perfil de Claude en minutos: quién eres, cómo quieres que te responda y qué reglas debe seguir. Gratis, de Trinitas Studio.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://creaperfil.trinitasstudio.com/">
+<meta property="og:title" content="Crea tu perfil de Claude · Trinitas Studio">
+<meta property="og:description" content="Arma tu perfil de Claude en minutos: quién eres, cómo quieres que te responda y qué reglas debe seguir. Gratis, de Trinitas Studio.">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0B3B2E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230B3B2E'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='700' fill='%23C9A227' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --ground:#F4F1E8; --raised:#FBF9F3; --sunken:#ECE7D8;
+    --ink:#101010; --ink70:#3A3A38; --ink50:#6A6A64; --ink30:#9C9B90;
+    --line:#DDD8C7; --line-strong:#C6C0AC;
+    --green:#0B3B2E; --green600:#145E48; --green500:#1C7A5E;
+    --gold:#9A7C1E; --gold-bright:#C9A227; --gold-soft:#F0E4BC;
+    --panel:#0C1512; --panel-raised:#12211B; --panel-text:#EDE9DC; --panel-dim:#A9B3AC;
+    --focus:#145E48; --btn-bg:#0B3B2E; --btn-fg:#F4F1E8;
+    --head:"Archivo",system-ui,sans-serif;
+    --body:"Hanken Grotesk",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0C1512; --raised:#12211B; --sunken:#0A120F;
+      --ink:#EDE9DC; --ink70:#C3C7BF; --ink50:#A9B3AC; --ink30:#6E7B73;
+      --line:#22332C; --line-strong:#2F453B;
+      --green:#C9A227; --green600:#1C7A5E; --green500:#3FB984;
+      --gold:#E4BE4A; --gold-bright:#E4BE4A; --gold-soft:#3A3115;
+      --panel:#060C0A; --panel-raised:#0F1B16;
+      --focus:#C9A227; --btn-bg:#C9A227; --btn-fg:#06110D;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0C1512; --raised:#12211B; --sunken:#0A120F;
+    --ink:#EDE9DC; --ink70:#C3C7BF; --ink50:#A9B3AC; --ink30:#6E7B73;
+    --line:#22332C; --line-strong:#2F453B;
+    --green:#C9A227; --green600:#1C7A5E; --green500:#3FB984;
+    --gold:#E4BE4A; --gold-bright:#E4BE4A; --gold-soft:#3A3115;
+    --panel:#060C0A; --panel-raised:#0F1B16;
+    --focus:#C9A227; --btn-bg:#C9A227; --btn-fg:#06110D;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:var(--body); font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:34px 26px 80px}
+
+  /* ---------- header ---------- */
+  header.top{
+    display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;
+    gap:18px; padding-bottom:18px; border-bottom:2px solid var(--green);
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--gold); margin:0 0 8px;
+  }
+  h1{
+    font-family:var(--head); font-weight:800; letter-spacing:-.025em;
+    font-size:clamp(28px,4.4vw,44px); line-height:1.04; margin:0; text-wrap:balance;
+  }
+  .lede{margin:12px 0 0; max-width:60ch; color:var(--ink70); font-size:16px}
+  .meter{
+    flex:0 0 auto; text-align:right; font-family:var(--mono); font-size:12px; color:var(--ink50);
+  }
+  .meter b{display:block;font-size:30px;font-weight:700;color:var(--gold);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+  /* ---------- layout ---------- */
+  .cols{display:grid; grid-template-columns:minmax(0,1fr) 430px; gap:38px; margin-top:34px; align-items:start}
+  @media (max-width:940px){ .cols{grid-template-columns:minmax(0,1fr); gap:30px} }
+
+  /* ---------- form ---------- */
+  .part{border-top:1px solid var(--line); padding-top:22px; margin-top:30px}
+  .part:first-of-type{border-top:0;margin-top:0;padding-top:0}
+  .part-head{display:flex; align-items:baseline; gap:12px; margin-bottom:4px}
+  .part-num{
+    font-family:var(--mono); font-size:12px; font-weight:700; color:var(--gold);
+    border:1px solid var(--gold); border-radius:2px; padding:2px 7px; flex:0 0 auto;
+  }
+  .part-head h2{font-family:var(--head); font-weight:700; font-size:20px; letter-spacing:-.015em; margin:0}
+  .part-note{margin:2px 0 20px; color:var(--ink50); font-size:14px; max-width:56ch}
+
+  .field{margin-bottom:20px}
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media (max-width:560px){ .row{grid-template-columns:1fr} }
+  label.lbl{
+    display:block; font-family:var(--head); font-weight:600; font-size:13px;
+    letter-spacing:.01em; margin-bottom:5px;
+  }
+  .hint{display:block; font-family:var(--body); font-weight:400; font-size:12.5px; color:var(--ink50); margin-top:2px}
+  input[type=text], textarea, select{
+    width:100%; font-family:var(--body); font-size:15px; color:var(--ink);
+    background:var(--raised); border:1px solid var(--line-strong); border-radius:3px;
+    padding:9px 11px; transition:border-color .12s, box-shadow .12s;
+  }
+  textarea{resize:vertical; min-height:64px; line-height:1.5}
+  select{appearance:none; background-image:none; cursor:pointer}
+  input::placeholder, textarea::placeholder{color:var(--ink30)}
+  input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:none; border-color:var(--focus); box-shadow:0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent);
+  }
+
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{
+    font-family:var(--body); font-size:13.5px; font-weight:500; color:var(--ink70);
+    background:var(--raised); border:1px solid var(--line-strong); border-radius:999px;
+    padding:5px 13px; cursor:pointer; transition:all .12s;
+  }
+  .chip:hover{border-color:var(--ink30)}
+  .chip[aria-pressed="true"]{
+    background:var(--btn-bg); border-color:var(--btn-bg); color:var(--btn-fg); font-weight:600;
+  }
+  .chip:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+
+  .rules{display:flex; flex-direction:column; gap:8px; margin-top:4px}
+  .grp + .grp{margin-top:18px}
+  .grp-t{font-family:var(--head); font-weight:600; font-size:13px; letter-spacing:.01em; margin:0 0 4px}
+  .rule{
+    display:flex; align-items:flex-start; gap:10px; padding:9px 12px;
+    background:var(--raised); border:1px solid var(--line); border-radius:3px; cursor:pointer;
+    transition:border-color .12s, background .12s;
+  }
+  .rule:hover{border-color:var(--line-strong)}
+  .rule input{margin:3px 0 0; accent-color:var(--green600); flex:0 0 auto}
+  .rule span{font-size:14.5px; line-height:1.45}
+  .rule.on{background:var(--gold-soft); border-color:var(--gold)}
+
+  /* ---------- output panel ---------- */
+  .out{position:sticky; top:26px}
+  @media (max-width:940px){ .out{position:static} }
+  .panel{
+    background:var(--panel); border-radius:4px; overflow:hidden;
+    box-shadow:0 2px 18px rgba(11,36,28,.18);
+  }
+  .panel-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--panel-raised); padding:10px 14px; border-bottom:1px solid rgba(201,162,39,.28);
+  }
+  .fname{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--gold-bright)}
+  .count{font-family:var(--mono); font-size:11px; color:var(--panel-dim); font-variant-numeric:tabular-nums}
+  pre.text{
+    margin:0; padding:18px 16px; max-height:calc(100vh - 150px); min-height:420px; overflow:auto;
+    font-family:var(--mono); font-size:12.5px; line-height:1.72; color:var(--panel-text);
+    white-space:pre-wrap; word-break:break-word;
+  }
+  pre.text .ph{color:#C7603F}
+  pre.text .hd{color:var(--gold-bright); font-weight:700}
+  .actions{display:flex; gap:9px; margin-top:12px; flex-wrap:wrap}
+  button.act{
+    font-family:var(--head); font-weight:700; font-size:13.5px; letter-spacing:.01em;
+    padding:10px 16px; border-radius:3px; cursor:pointer; border:1px solid transparent;
+    transition:background .12s, border-color .12s, transform .06s;
+  }
+  button.act:active{transform:translateY(1px)}
+  button.act:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+  .primary{background:var(--btn-bg); color:var(--btn-fg); border-color:var(--btn-bg)}
+  .primary:hover{filter:brightness(1.12)}
+  .ghost{background:transparent; color:var(--ink70); border-color:var(--line-strong)}
+  .ghost:hover{border-color:var(--ink30); color:var(--ink)}
+  .status{font-size:12.5px; color:var(--ink50); margin-top:9px; min-height:18px; font-family:var(--mono)}
+  .status.ok{color:var(--green500)}
+
+  .tip{
+    margin-top:20px; padding:14px 16px; background:var(--sunken);
+    border-left:3px solid var(--green); border-radius:0 3px 3px 0;
+  }
+  .tip h3{font-family:var(--head); font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--green); margin:0 0 6px}
+  .tip p{margin:0; font-size:13.5px; color:var(--ink70); line-height:1.55}
+  .tip p + p{margin-top:8px}
+
+  footer.foot{
+    margin-top:52px; padding-top:16px; border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+    font-family:var(--mono); font-size:11.5px; color:var(--ink30);
+  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+<style>body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Programa Claude · Sesión 01 · Tarea de la semana</p>
+      <h1>Mi perfil en Claude</h1>
+      <p class="lede">Se escribe una vez y aplica a todas tus conversaciones. Llena los campos y el texto de la derecha se arma solo. Cuando esté listo, cópialo y pégalo en <strong>claude.ai → Configuración → Perfil</strong>.</p>
+    </div>
+    <div class="meter"><b id="pct">0%</b>completado</div>
+  </header>
+
+  <div class="cols">
+
+    <form id="f" autocomplete="off">
+
+      <section class="part">
+        <div class="part-head"><span class="part-num">Parte 1</span><h2>Quién eres</h2></div>
+        <p class="part-note">Lo que Claude necesita saber de ti y de tu empresa para dejar de responder como si hablara con cualquiera.</p>
+
+        <div class="field">
+          <label class="lbl" for="quien">Tu nombre y tu cargo
+            <span class="hint">El que ejerces de verdad, no el del organigrama.</span></label>
+          <input type="text" id="quien" data-req placeholder="Tony Stark, director ejecutivo y jefe de ingeniería de Stark Industries">
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="negocio">A qué se dedica tu empresa
+            <span class="hint">En una frase que entendería un cliente nuevo.</span></label>
+          <textarea id="negocio" data-req rows="2" placeholder="Tecnología de defensa, energía limpia y prototipado avanzado para gobiernos y aliados"></textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="lbl" for="equipo">El equipo</label>
+            <input type="text" id="equipo" data-req placeholder="12 ingenieros de planta más contratistas de I+D">
+          </div>
+          <div class="field">
+            <label class="lbl" for="clientes">Clientes principales</label>
+            <input type="text" id="clientes" data-req placeholder="Stark Industries">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="lineas">Procesos o funciones principales del trabajo que efectúo
+            <span class="hint">Sepáralas con comas. Es lo que más le sirve a Claude para ubicarse.</span></label>
+          <input type="text" id="lineas" data-req placeholder="aprobación de presupuestos de I+D, revisión de contratos con el gobierno, supervisión del consejo directivo, gestión de crisis y relaciones públicas">
+        </div>
+      </section>
+
+      <section class="part">
+        <div class="part-head"><span class="part-num">Parte 2</span><h2>Cómo quieres que te responda</h2></div>
+        <p class="part-note">Aquí es donde se corrige el tono. Sé concreta: entre más específica, menos vas a tener que repetirte.</p>
+
+        <div class="field">
+          <span class="lbl">Tono</span>
+          <div class="chips" data-group="tono" role="group" aria-label="Tono">
+            <button type="button" class="chip" aria-pressed="false">directo</button>
+            <button type="button" class="chip" aria-pressed="false">profesional</button>
+            <button type="button" class="chip" aria-pressed="false">cercano</button>
+            <button type="button" class="chip" aria-pressed="false">técnico, sin traducir</button>
+            <button type="button" class="chip" aria-pressed="false">crítico conmigo</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="lbl">Formato preferido</span>
+          <div class="chips" data-group="formato" role="group" aria-label="Formato">
+            <button type="button" class="chip" aria-pressed="false">tablas para datos</button>
+            <button type="button" class="chip" aria-pressed="false">listas para pasos</button>
+            <button type="button" class="chip" aria-pressed="false">prosa corta</button>
+            <button type="button" class="chip" aria-pressed="false">conclusión primero</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="lbl" for="largo">Longitud por defecto</label>
+            <select id="largo">
+              <option value="">Sin preferencia</option>
+              <option value="Responde en menos de 150 palabras salvo que te pida detalle.">Breve — menos de 150 palabras</option>
+              <option value="Máximo tres puntos de soporte por respuesta." selected>Media — máximo 3 puntos</option>
+              <option value="Desarrolla el razonamiento cuando la decisión lo amerite.">Detallada — con razonamiento</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="lbl" for="idioma">Idioma y moneda</label>
+            <select id="idioma">
+              <option value="Español. Moneda: COP." selected>Español · COP</option>
+              <option value="Español. Moneda: USD.">Español · USD</option>
+              <option value="Español, pero conserva los términos técnicos en inglés. Moneda: COP.">Español con términos en inglés · COP</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="molesta">Cosas que quieres que Claude deje de hacer
+            <span class="hint">El campo más útil de todos. Piensa en un asistente de IA que hayas usado antes: ¿qué te hacía perder tiempo o te sacaba de quicio? Eso se convierte en una instrucción de «no lo hagas».</span></label>
+          <textarea id="molesta" rows="2" placeholder="Repetir mi pregunta antes de responder, o darme advertencias de seguridad obvias"></textarea>
+        </div>
+      </section>
+
+      <section class="part">
+        <div class="part-head"><span class="part-num">Parte 3</span><h2>Reglas duras</h2></div>
+        <p class="part-note">Lo que Claude nunca debe hacer contigo. Marca las que te sirvan y agrega las tuyas.</p>
+
+        <div class="rules" id="rules">
+          <label class="rule"><input type="checkbox" checked value="No inventes cifras, fechas ni nombres. Si no lo sabes, dilo."><span>No inventes cifras, fechas ni nombres. Si no lo sabes, dilo.</span></label>
+          <label class="rule"><input type="checkbox" checked value="No me pidas disculpas. Corrige y sigue."><span>No me pidas disculpas. Corrige y sigue.</span></label>
+          <label class="rule"><input type="checkbox" value="No repitas mi pregunta antes de responderla."><span>No repitas mi pregunta antes de responderla.</span></label>
+          <label class="rule"><input type="checkbox" value="Marca explícitamente lo que no puedas verificar."><span>Marca explícitamente lo que no puedas verificar.</span></label>
+          <label class="rule"><input type="checkbox" value="Si te falta contexto para responder bien, pregúntame antes de asumir."><span>Si te falta contexto para responder bien, pregúntame antes de asumir.</span></label>
+          <label class="rule"><input type="checkbox" value="Cuando algo va a un cliente, dime de dónde sale cada dato."><span>Cuando algo va a un cliente, dime de dónde sale cada dato.</span></label>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label class="lbl" for="propia">Tu propia regla
+            <span class="hint">Funciona mejor en imperativo.</span></label>
+          <input type="text" id="propia" placeholder="No me sugieras que sea más prudente. Dame la información.">
+        </div>
+      </section>
+
+      <section class="part">
+        <div class="part-head"><span class="part-num">Parte 4</span><h2>Cuando Claude trabaja con tus archivos</h2></div>
+        <p class="part-note">Para Cowork o cualquier modo en que Claude crea, edita o mueve archivos por ti. Desmarca lo que no aplique.</p>
+
+        <div id="cowork">
+          <div class="grp" data-title="Evitar daños accidentales">
+            <p class="grp-t">Evitar daños accidentales</p>
+            <div class="rules">
+              <label class="rule"><input type="checkbox" checked value="Antes de borrar, sobrescribir o renombrar cualquier archivo existente, muéstrame qué va a cambiar y espera mi confirmación."><span>Antes de borrar, sobrescribir o renombrar cualquier archivo existente, muéstrame qué va a cambiar y espera mi confirmación.</span></label>
+              <label class="rule"><input type="checkbox" checked value="Nunca modifiques archivos fuera de la carpeta de trabajo actual, salvo que te lo pida explícitamente."><span>Nunca modifiques archivos fuera de la carpeta de trabajo actual, salvo que te lo pida explícitamente.</span></label>
+              <label class="rule"><input type="checkbox" checked value="No envíes correos, mensajes ni invitaciones, ni publiques nada en mi nombre. Déjalo como borrador y espera mi aprobación."><span>No envíes correos, mensajes ni invitaciones, ni publiques nada en mi nombre. Déjalo como borrador y espera mi aprobación.</span></label>
+            </div>
+          </div>
+          <div class="grp" data-title="Mantener el orden">
+            <p class="grp-t">Mantener el orden</p>
+            <div class="rules">
+              <div>
+                <label class="rule"><input type="checkbox" checked value="fmt-nombre" data-fmt="formato_nombre" data-tpl="Al crear archivos nuevos, usa el formato de nombre {x}."><span>Al crear archivos nuevos, usa este formato de nombre:</span></label>
+                <div class="field" style="margin:8px 0 0 34px">
+                  <label class="lbl" for="formato_nombre">Tu formato de nombre
+                    <span class="hint">Escríbelo como quieras que Claude nombre tus archivos. Ej.: AAAA-MM-DD-nombre-descriptivo, Cliente_Proyecto_v01, AAAAMMDD Tema.</span></label>
+                  <input type="text" id="formato_nombre" value="AAAA-MM-DD-nombre-descriptivo" placeholder="AAAA-MM-DD-nombre-descriptivo">
+                </div>
+              </div>
+              <label class="rule"><input type="checkbox" checked value="Al terminar una tarea, lista todos los archivos que creaste o modificaste y dónde quedaron."><span>Al terminar una tarea, lista todos los archivos que creaste o modificaste y dónde quedaron.</span></label>
+            </div>
+          </div>
+          <div class="grp" data-title="Manejo de versiones">
+            <p class="grp-t">Manejo de versiones</p>
+            <div class="rules">
+              <div>
+                <label class="rule"><input type="checkbox" checked value="ver-sufijo" data-fmt="formato_version" data-tpl="Cuando modifiques un archivo existente, no lo sobrescribas: guarda una versión nueva con el sufijo {x} y deja la anterior intacta."><span>Cuando modifiques un archivo existente, guarda una versión nueva con este sufijo y deja la anterior intacta:</span></label>
+                <div class="field" style="margin:8px 0 0 34px">
+                  <label class="lbl" for="formato_version">Tu convención de versiones
+                    <span class="hint">Cómo numeras las versiones. Ej.: _v01, _v02 · _v1.0, _v1.1 · _rev-A, _rev-B · _final, _final2.</span></label>
+                  <input type="text" id="formato_version" value="_v01, _v02, _v03" placeholder="_v01, _v02, _v03">
+                </div>
+              </div>
+              <label class="rule"><input type="checkbox" checked value="Trabaja siempre sobre la versión más reciente. Si no sabes cuál es, pregúntame."><span>Trabaja siempre sobre la versión más reciente. Si no sabes cuál es, pregúntame.</span></label>
+            </div>
+          </div>
+          <div class="grp" data-title="Controlar el ritmo del trabajo autónomo">
+            <p class="grp-t">Controlar el ritmo del trabajo autónomo</p>
+            <div class="rules">
+              <label class="rule"><input type="checkbox" checked value="En tareas de varios pasos, primero muéstrame el plan y espera mi aprobación antes de ejecutar."><span>En tareas de varios pasos, primero muéstrame el plan y espera mi aprobación antes de ejecutar.</span></label>
+              <label class="rule"><input type="checkbox" checked value="Después de cada paso importante, resume brevemente qué hiciste y qué sigue."><span>Después de cada paso importante, resume brevemente qué hiciste y qué sigue.</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <div class="out">
+      <div class="panel">
+        <div class="panel-bar">
+          <span class="fname">perfil.txt</span>
+          <span class="count" id="chars">0 caracteres</span>
+        </div>
+        <pre class="text" id="salida"></pre>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="act primary" id="copy">Copiar perfil</button>
+        <button type="button" class="act ghost" id="reset">Empezar de cero</button>
+      </div>
+      <p class="status" id="status"></p>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>Trinitas Studio · Programa Claude · Sesión 01</span>
+    <span>Tráelo lleno a la sesión 02</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var K='perfil-claude-v1';
+  var OLD=['Antes de borrar, sobrescribir o renombrar cualquier archivo existente, muéstrame qué va a cambiar y espera mi confirmación.','Nunca modifiques archivos fuera de la carpeta de trabajo actual, salvo que te lo pida explícitamente.','Al terminar una tarea, lista todos los archivos que creaste o modificaste y dónde quedaron.','En tareas de varios pasos, primero muéstrame el plan y espera mi aprobación antes de ejecutar.','Después de cada paso importante, resume brevemente qué hiciste y qué sigue.'];
+  var f=document.getElementById('f');
+  var salida=document.getElementById('salida');
+  var chars=document.getElementById('chars');
+  var pct=document.getElementById('pct');
+  var status=document.getElementById('status');
+  var ids=['quien','negocio','equipo','clientes','lineas','largo','idioma','molesta','propia','formato_nombre','formato_version'];
+
+  function chipGroup(name){
+    return Array.prototype.slice.call(document.querySelectorAll('[data-group="'+name+'"] .chip'));
+  }
+  function chipsOn(name){
+    return chipGroup(name).filter(function(c){return c.getAttribute('aria-pressed')==='true';})
+      .map(function(c){return c.textContent.trim();});
+  }
+  function val(id){ var e=document.getElementById(id); return e ? e.value.trim() : ''; }
+  function ph(id){ var e=document.getElementById(id); return e && e.placeholder ? e.placeholder : ''; }
+
+  // usa el placeholder como ejemplo mientras el campo esté vacío, marcado en rojo
+  function slot(id){
+    var v=val(id);
+    return v ? {t:v,f:true} : {t:ph(id),f:false};
+  }
+
+  function build(){
+    var out=[];
+
+    out.push(['## Sobre mí',true]);
+    var q=slot('quien');
+    out.push(['Soy '+q.t+'.',q.f]);
+    var n=slot('negocio'), e=slot('equipo'), c=slot('clientes'), l=slot('lineas');
+    out.push(['Negocio: '+n.t+'.',n.f]);
+    out.push(['Equipo: '+e.t+'.',e.f]);
+    out.push(['Cliente principal: '+c.t+'.',c.f]);
+    out.push(['Procesos y funciones principales: '+l.t+'.',l.f]);
+    out.push(['',true]);
+
+    out.push(['## Mi asistente de IA',true]);
+    var idi=val('idioma'); if(idi){ out.push(['Idioma: '+idi,true]); }
+    var tono=chipsOn('tono'), form=chipsOn('formato'), largo=val('largo');
+    if(tono.length) out.push(['Tono: '+tono.join(', ')+'.',true]);
+    if(form.length) out.push(['Formato: '+form.join(', ')+'.',true]);
+    if(largo) out.push([largo,true]);
+    var m=val('molesta');
+    if(m) out.push(['Evita: '+m.replace(/\.$/,'')+'.',true]);
+    out.push(['',true]);
+
+    out.push(['## Cómo trabajar conmigo',true]);
+    var reglas=Array.prototype.slice.call(document.querySelectorAll('#rules input:checked'))
+      .map(function(i){return i.value;});
+    var propia=val('propia');
+    if(propia) reglas.push(propia.charAt(0).toUpperCase()+propia.slice(1)+(/[.!?]$/.test(propia)?'':'.'));
+    reglas.forEach(function(r){ out.push([r,true]); });
+
+    var grupos=Array.prototype.slice.call(document.querySelectorAll('#cowork .grp')).map(function(g){
+      return {t:g.getAttribute('data-title'), r:Array.prototype.slice.call(g.querySelectorAll('input[type=checkbox]:checked')).map(function(i){ if(i.dataset.fmt){ var fv=(val(i.dataset.fmt)||ph(i.dataset.fmt)).replace(/\.$/,''); return i.dataset.tpl.replace('{x}',fv); } return i.value;})};
+    }).filter(function(g){return g.r.length;});
+    if(grupos.length){
+      out.push(['',true]);
+      out.push(['## Cuando trabajes con mis archivos',true]);
+      grupos.forEach(function(g,gi){
+        if(gi) out.push(['',true]);
+        out.push([g.t+':',true]);
+        g.r.forEach(function(r){ out.push(['- '+r,true]); });
+      });
+    }
+
+    while(out.length && out[out.length-1][0]==='') out.pop();
+    return out;
+  }
+
+  function render(){
+    var rows=build();
+    salida.textContent='';
+    rows.forEach(function(r,i){
+      var node;
+      if(!r[1]){ node=document.createElement('span'); node.className='ph'; node.textContent=r[0]; }
+      else if(r[0].indexOf('## ')===0){ node=document.createElement('span'); node.className='hd'; node.textContent=r[0]; }
+      else { node=document.createTextNode(r[0]); }
+      salida.appendChild(node);
+      if(i<rows.length-1) salida.appendChild(document.createTextNode('\n'));
+    });
+    var plain=rows.map(function(r){return r[0];}).join('\n');
+    chars.textContent=plain.length+' caracteres';
+
+    var req=Array.prototype.slice.call(document.querySelectorAll('[data-req]'));
+    var done=req.filter(function(el){return el.value.trim()!=='';}).length;
+    var extra=(chipsOn('tono').length?1:0)+(chipsOn('formato').length?1:0)+(val('molesta')?1:0);
+    var total=req.length+3;
+    pct.textContent=Math.round((done+extra)/total*100)+'%';
+    save();
+  }
+
+  function currentText(){
+    return build().filter(function(r){return r[1];}).map(function(r){return r[0];}).join('\n');
+  }
+
+  function save(){
+    try{
+      var d={v:{},tono:chipsOn('tono'),formato:chipsOn('formato'),reglas:[]};
+      ids.forEach(function(id){ var e=document.getElementById(id); if(e) d.v[id]=e.value; });
+      document.querySelectorAll('#rules input').forEach(function(i){ if(i.checked) d.reglas.push(i.value); });
+      d.cowork=[];
+      d.coworkSeen=[];
+      document.querySelectorAll('#cowork input[type=checkbox]').forEach(function(i){ d.coworkSeen.push(i.value); if(i.checked) d.cowork.push(i.value); });
+      localStorage.setItem(K,JSON.stringify(d));
+    }catch(err){}
+  }
+
+  function load(){
+    var raw=null;
+    try{ raw=localStorage.getItem(K); }catch(err){}
+    if(!raw) return false;
+    try{
+      var d=JSON.parse(raw);
+      ids.forEach(function(id){ var e=document.getElementById(id); if(e && d.v && d.v[id]!=null) e.value=d.v[id]; });
+      ['tono','formato'].forEach(function(g){
+        chipGroup(g).forEach(function(c){
+          var on=(d[g]||[]).indexOf(c.textContent.trim())>-1;
+          c.setAttribute('aria-pressed',on?'true':'false');
+        });
+      });
+      document.querySelectorAll('#rules input').forEach(function(i){
+        i.checked=(d.reglas||[]).indexOf(i.value)>-1;
+      });
+      if(d.cowork){
+        document.querySelectorAll('#cowork input[type=checkbox]').forEach(function(i){
+          if(i.value==='fmt-nombre'){ i.checked=d.cowork.indexOf('fmt-nombre')>-1 || d.cowork.some(function(x){return x.indexOf('Al crear archivos')===0;}); } else if((d.coworkSeen||[]).indexOf(i.value)>-1 || d.cowork.indexOf(i.value)>-1 || !d.coworkSeen && OLD.indexOf(i.value)>-1){ i.checked=d.cowork.indexOf(i.value)>-1; }
+        });
+      }
+      return true;
+    }catch(err){ return false; }
+  }
+
+  function syncRules(){
+    document.querySelectorAll('.rule').forEach(function(r){
+      r.classList.toggle('on', r.querySelector('input').checked);
+    });
+  }
+
+  f.addEventListener('input',render);
+  f.addEventListener('change',function(){ syncRules(); render(); });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true');
+      render();
+    });
+  });
+
+  document.getElementById('copy').addEventListener('click',function(){
+    var txt=currentText();
+    function ok(){ status.textContent='Perfil copiado. Pégalo en claude.ai → Configuración → Perfil.'; status.className='status ok'; }
+    function fail(){ status.textContent='No se pudo copiar. Selecciona el texto del panel y usa Ctrl+C.'; status.className='status'; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(ok,fallback);
+    } else { fallback(); }
+    function fallback(){
+      try{
+        var ta=document.createElement('textarea');
+        ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        var done=document.execCommand('copy');
+        document.body.removeChild(ta);
+        done?ok():fail();
+      }catch(err){ fail(); }
+    }
+  });
+
+  document.getElementById('reset').addEventListener('click',function(){
+    if(!confirm('Se borra todo lo que escribiste. ¿Seguir?')) return;
+    ids.forEach(function(id){ var e=document.getElementById(id); if(e) e.value = (id==='formato_nombre'||id==='formato_version') ? e.placeholder : (id==='largo'||id==='idioma') ? e.options[id==='largo'?2:0].value : ''; });
+    document.querySelectorAll('.chip').forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+    document.querySelectorAll('#rules input').forEach(function(i,ix){ i.checked = ix<2; });
+    document.querySelectorAll('#cowork input[type=checkbox]').forEach(function(i){ i.checked = true; });
+    try{ localStorage.removeItem(K); }catch(err){}
+    syncRules(); render();
+    status.textContent='Listo, en blanco.'; status.className='status';
+  });
+
+  // arranque: si no hay nada guardado, deja el ejemplo de la sesión puesto
+  if(!load()){
+    chipGroup('tono').forEach(function(c){ if(c.textContent.trim()==='directo') c.setAttribute('aria-pressed','true'); });
+    chipGroup('formato').forEach(function(c){ if(c.textContent.trim()==='tablas para datos'||c.textContent.trim()==='conclusión primero') c.setAttribute('aria-pressed','true'); });
+  }
+  syncRules(); render();
+})();
+</script>
+</body>
+</html>
