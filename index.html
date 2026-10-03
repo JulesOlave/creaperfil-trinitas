@@ -181,6 +181,11 @@
   .tip p{margin:0; font-size:13.5px; color:var(--ink70); line-height:1.55}
   .tip p + p{margin-top:8px}
 
+  .eyebrow a{color:inherit; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
+  .eyebrow a:hover{color:var(--gold-bright)}
+  footer.foot a{color:var(--ink70); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px}
+  footer.foot a:hover{color:var(--gold)}
+  .eyebrow a:focus-visible, footer.foot a:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
   footer.foot{
     margin-top:52px; padding-top:16px; border-top:1px solid var(--line);
     display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
@@ -195,9 +200,9 @@
 
   <header class="top">
     <div>
-      <p class="eyebrow">Programa Claude · Sesión 01 · Tarea de la semana</p>
+      <p class="eyebrow">Herramienta gratuita · <a href="https://trinitasstudio.com" target="_blank" rel="noopener">Trinitas Studio</a></p>
       <h1>Mi perfil en Claude</h1>
-      <p class="lede">Se escribe una vez y aplica a todas tus conversaciones. Llena los campos y el texto de la derecha se arma solo. Cuando esté listo, cópialo y pégalo en <strong>claude.ai → Configuración → Perfil</strong>.</p>
+      <p class="lede">Escríbelo una vez y Claude lo aplicará en todas tus conversaciones. Llena los campos y el texto de la derecha se arma solo. Cuando esté listo, cópialo y pégalo en <strong>claude.ai → tus iniciales (abajo a la izquierda) → Configuración → Instrucciones para Claude</strong>.</p>
     </div>
     <div class="meter"><b id="pct">0%</b>completado</div>
   </header>
@@ -382,8 +387,8 @@
   </div>
 
   <footer class="foot">
-    <span>Trinitas Studio · Programa Claude · Sesión 01</span>
-    <span>Tráelo lleno a la sesión 02</span>
+    <span>Hecho por <a href="https://trinitasstudio.com" target="_blank" rel="noopener">Trinitas Studio</a></span>
+    <span>Otra herramienta gratuita: <a href="https://markdown.trinitasstudio.com" target="_blank" rel="noopener">Convierte PDF, Word o Excel a Markdown</a></span>
   </footer>
 </div>
 
@@ -542,7 +547,7 @@
 
   document.getElementById('copy').addEventListener('click',function(){
     var txt=currentText();
-    function ok(){ status.textContent='Perfil copiado. Pégalo en claude.ai → Configuración → Perfil.'; status.className='status ok'; }
+    function ok(){ status.textContent='Perfil copiado. Pégalo en claude.ai → Configuración → Instrucciones para Claude.'; status.className='status ok'; }
     function fail(){ status.textContent='No se pudo copiar. Selecciona el texto del panel y usa Ctrl+C.'; status.className='status'; }
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(txt).then(ok,fallback);
